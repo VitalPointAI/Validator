@@ -50,4 +50,4 @@ sleep 5
 cd nearcore
 git fetch
 git checkout $commit
-done
+exit

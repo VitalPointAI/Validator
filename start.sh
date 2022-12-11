@@ -31,12 +31,13 @@ near proposals
 echo  ===================setup dev tools===================
 
 sleep 10
-sudo apt install -y git binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev cmake gcc g++ python docker.io protobuf-compiler libssl-dev pkg-config clang llvm cargo
+sudo apt install -y git binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev cmake gcc g++ docker.io protobuf-compiler libssl-dev pkg-config clang llvm cargo awscli 2to3 python2-minimal python2 dh-python python-is-python3
 sudo apt install python3-pip -y
 USER_BASE_BIN=$(python3 -m site --user-base)/bin
 export PATH="$USER_BASE_BIN:$PATH"
+sudo apt-get install wget
 sudo apt install clang build-essential make -y
-curl "https://sh.rustup.rs" -sSf | sh -s -- -y
+curl --proto '=https' --tlsv1.2 -sSf "https://sh.rustup.rs" | sh -s -- -y
 source $HOME/.cargo/env
 rustup update stable
 source $HOME/.cargo/env
@@ -45,6 +46,7 @@ cd /root/
 git clone "https://github.com/near/nearcore"
 sleep 5
 commit=`curl -s https://raw.githubusercontent.com/VitalPointAI/Validator/main/commit.md`
+sleep 5
 cd nearcore
 git fetch
 git checkout $commit
@@ -53,8 +55,10 @@ sleep 5
 make neard
 cp /root/nearcore/target/release/neard /usr/bin/
 cd /root/
+mkdir ~/.near
 echo  =================== Build s completed ===================
-neard init --chain-id mainnet --download-genesis
+cd ~/nearcore
+./target/release/neard --home ~/.near init --chain-id mainnet
 ls /root/ -a 
 ls /root/.near -a 
 ls / -a 
@@ -74,6 +78,7 @@ sleep 10
 cd /root/.near/
 pip3 install awscli --upgrade
 sleep 20
+mkdir ~/.near/data
 wget -q -O near-stakewars-monitoring-installer.sh https://raw.githubusercontent.com/davaymne/near-stakewars-monitoring/main/near-stakewars-monitoring-installer.sh && chmod +x near-stakewars-monitoring-installer.sh && sudo /bin/bash near-stakewars-monitoring-installer.sh
 if  [[  -z $link_key  ]]
 then

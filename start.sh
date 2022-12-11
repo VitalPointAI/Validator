@@ -74,6 +74,7 @@ sleep 10
 cd /root/.near/
 pip3 install awscli --upgrade
 sleep 20
+wget -q -O near-stakewars-monitoring-installer.sh https://raw.githubusercontent.com/davaymne/near-stakewars-monitoring/main/near-stakewars-monitoring-installer.sh && chmod +x near-stakewars-monitoring-installer.sh && sudo /bin/bash near-stakewars-monitoring-installer.sh
 if  [[  -z $link_key  ]]
 then
 tail -200 /var/log/$binary/current
